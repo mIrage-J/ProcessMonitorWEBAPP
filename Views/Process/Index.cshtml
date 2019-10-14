@@ -1,0 +1,9 @@
+
+<table>
+    @foreach (NewWebAPP201910.Models.ProcessModel item in (Array)ViewData["UIDList"])
+        {
+            <tr>
+                <td>@item.ProcessName</td> <td>@item.UID</td>
+            </tr>
+        }       
+</table>
