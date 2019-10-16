@@ -1,10 +1,11 @@
-
+<h2>Index</h2>
+<p style="color:orangered">@ViewData["Notification"]</p>
 <h4>@Html.ActionLink("Launch Process","LaunchProcessResult")</h4>
 <table>
-    @foreach (NewWebAPP201910.Models.ProcessModel item in (Array)ViewData["UIDList"])
+    @foreach (NewWebAPP201910.Models.ProcessModel process in (Array)ViewData["UIDList"])
         {
             <tr>
-                <td>@item.ProcessName</td> <td>@item.UID</td>
+                <td>@Html.ActionLink("Close Process","EndProcessResult",new{ uid=process.UID})</td><td>@process.ProcessName</td> <td>@process.UID</td>
             </tr>
         }       
 </table>

@@ -75,12 +75,12 @@ namespace NewWebAPP201910.Controllers
             }
         }
 
-        public ActionResult KillProcessResult(int uid)
+        public ActionResult EndProcessResult(int uid)
         {
-            KillProcess(uid);
+            EndProcess(uid);
             return RedirectToAction("Index");
         }
-        private void KillProcess(int uid)
+        private void EndProcess(int uid)
         {
             try
             {
