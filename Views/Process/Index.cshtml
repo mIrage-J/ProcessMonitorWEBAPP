@@ -5,7 +5,7 @@
     @foreach (NewWebAPP201910.Models.ProcessModel process in (Array)ViewData["UIDList"])
         {
             <tr>
-                <td>@Html.ActionLink("Close Process","EndProcessResult",new{ uid=process.UID})</td><td>@process.ProcessName</td> <td>@process.UID</td>
+                <td>@Html.ActionLink("Kill Process","KillProcessResult",new{ uid=process.UID})</td><td>@process.ProcessName</td> <td>@process.UID</td>
             </tr>
         }       
 </table>

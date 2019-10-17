@@ -19,8 +19,8 @@ namespace NewWebAPP201910.Controllers
 
         public ProcessController()
         {
-            ViewData.Add(noticeName, null);
-            ViewData.Add(uidListName, null);
+            ViewData.Add(new KeyValuePair<string, object>(uidListName, null));
+            ViewData.Add(new KeyValuePair<string, object>(noticeName, null));
         }
 
         public ActionResult Index()
@@ -32,7 +32,7 @@ namespace NewWebAPP201910.Controllers
                 processes[i] = new ProcessModel() { ProcessName = processList[i].ProcessName, UID = processList[i].Id };
             }
             ViewData[uidListName] = processes;
-            return View();
+            return View("Index");
         }
         private void GetProcessList()
         {
@@ -55,7 +55,7 @@ namespace NewWebAPP201910.Controllers
         public ActionResult LaunchProcessResult()
         {
             LaunchProcess();
-            return RedirectToAction("Index");
+            return Index();
         }
 
         private void LaunchProcess()
@@ -75,47 +75,27 @@ namespace NewWebAPP201910.Controllers
             }
         }
 
-        public ActionResult EndProcessResult(int uid)
+        public ActionResult KillProcessResult(int uid)
         {
-            EndProcess(uid);
-            return RedirectToAction("Index");
+            KillProcess(uid);
+            return Index();
         }
-        private void EndProcess(int uid)
+        
+        private void KillProcess(int uid)
         {
             try
             {
                 Process tokill = Process.GetProcessById(uid);
-                if (tokill == null || tokill.HasExited)
-                {
-                    ViewData[noticeName] = "Process is already killed";
-                    return;
-                }
-                if (tokill.CloseMainWindow())
-                {
-                    if (tokill.WaitForExit(3000))
-                    {
-                        ViewData[noticeName] = $"Process {uid} has been closed";
-                        return;
-                    }
-                }
-
-                ForceKill(tokill);
+                tokill.Kill();
+                if (tokill.WaitForExit(3000))
+                    ViewData[noticeName] = $"Process {tokill.Id} has been killed";
+                else
+                    ViewData[noticeName] = $"Fail to kill process {tokill.Id} , time out expired in 3 seconds";
             }
             catch (Exception ex)
             {
                 ViewData[noticeName] = "Fail to kill process with message" + ex.Message;
             }
-
-
-        }
-
-        private void ForceKill(Process tokill)
-        {
-            tokill.Kill();
-            if (tokill.WaitForExit(3000))
-                ViewData[noticeName] = $"Process {tokill.Id} has been killed";
-            else
-                ViewData[noticeName] = $"Fail to kill process {tokill.Id} , time out expired in 3 seconds";
         }
     }
 }
