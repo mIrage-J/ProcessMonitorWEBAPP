@@ -17,6 +17,14 @@ namespace NewWebAPP201910.Controllers
         const string uidListName = "UIDList";
         IConfigurationRoot configuration { get { return BuildConfiguration(); } }
 
+         private static IConfigurationRoot BuildConfiguration()
+        {
+            return new ConfigurationBuilder()
+                        .SetBasePath(Directory.GetCurrentDirectory())
+                        .AddJsonFile("appsettings.Development.json").Build();
+        }
+
+
         public ProcessController()
         {
             ViewData.Add(new KeyValuePair<string, object>(uidListName, null));
@@ -45,13 +53,8 @@ namespace NewWebAPP201910.Controllers
 
         }
 
-        private static IConfigurationRoot BuildConfiguration()
-        {
-            return new ConfigurationBuilder()
-                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.Development.json").Build();
-        }
 
+       
         public ActionResult LaunchProcessResult()
         {
             LaunchProcess();

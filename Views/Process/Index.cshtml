@@ -1,3 +1,18 @@
+<script lang="javascript">
+    function refreshNetworkMonitor(){
+        var a=document.getElementById("receive");
+        $.get("/Monitor/ReceivedBytes","",function(data){
+            a.innerText=data;
+        })
+
+        var b=document.getElementById("send");
+        $.get("/Monitor/SentBytes","",function(data){
+            b.innerText=data;
+        })
+    }
+    setInterval(refreshNetworkMonitor,1000);
+</script>
+
 <h2>Index</h2>
 <p style="color:orangered">@ViewData["Notification"]</p>
 <h4>@Html.ActionLink("Launch Process","LaunchProcessResult")</h4>
@@ -9,3 +24,7 @@
             </tr>
         }       
 </table>
+
+<h4>Network Information</h4>
+<p><span style="font-weight:bold;font-size:larger">Receive</span> <span id="receive"></span></p>
+<p><span style="font-weight:bold;font-size:larger">Send</span> <span id="send"></span></p>
